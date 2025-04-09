@@ -26,11 +26,7 @@ public class ShortenerController : Controller
     }
 
 
-    [HttpGet]
-    public IActionResult GetDebug()
-    {
-        return Ok(HttpContext.Request.Scheme);
-    }
+    
 
     [HttpGet("{code}")]
     public async Task<IActionResult> GetShortenerUrl(string code)
