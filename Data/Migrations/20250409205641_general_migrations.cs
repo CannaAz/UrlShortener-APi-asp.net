@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace URLSHORTENER.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class redomigrations : Migration
+    public partial class general_migrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -64,6 +64,19 @@ namespace URLSHORTENER.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "LinkUsages",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    LinkId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    UsedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LinkUsages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ShortenedUrl",
                 columns: table => new
                 {
@@ -71,7 +84,7 @@ namespace URLSHORTENER.Data.Migrations
                     LongUrl = table.Column<string>(type: "TEXT", nullable: false),
                     ShortUrl = table.Column<string>(type: "TEXT", nullable: false),
                     Code = table.Column<string>(type: "TEXT", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "TEXT", nullable: false)
+                    CreatedAt = table.Column<DateTimeOffset>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -242,6 +255,9 @@ namespace URLSHORTENER.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "LinkInteractions");
+
+            migrationBuilder.DropTable(
+                name: "LinkUsages");
 
             migrationBuilder.DropTable(
                 name: "ShortenedUrl");

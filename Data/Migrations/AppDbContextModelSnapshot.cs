@@ -226,6 +226,23 @@ namespace URLSHORTENER.Data.Migrations
                     b.ToTable("LinkInteractions");
                 });
 
+            modelBuilder.Entity("URLSHORTENER.Models.LinkUsage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("LinkId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("UsedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LinkUsages");
+                });
+
             modelBuilder.Entity("URLSHORTENER.Models.ShortenedUrl", b =>
                 {
                     b.Property<Guid>("Id")
@@ -236,7 +253,7 @@ namespace URLSHORTENER.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LongUrl")

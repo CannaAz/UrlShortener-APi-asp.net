@@ -15,9 +15,14 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var ConnectionStr = builder.Configuration.GetConnectionString("DatabaseConnectionStr");
-builder.Services.AddDbContext<AppDbContext>(
-    options => options.UseSqlite(ConnectionStr)
-);
+if(builder.Environment.IsDevelopment())
+{
+    builder.Services.AddDbContext<AppDbContext>( options => options.UseSqlite(ConnectionStr));
+}
+else 
+{
+     builder.Services.AddDbContext<AppDbContext>( options => options.UseSqlServer(ConnectionStr));
+}
 
 builder.Services.AddScoped<UrlShorteningService>();
 builder.Services.AddScoped<QrGeneratorService>();

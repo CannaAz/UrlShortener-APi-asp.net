@@ -17,10 +17,8 @@ public class UrlShorteningService
         while (true)
         {
             var _GenerateCode = GenerateCode(ShortLinkSettings.Length, ShortLinkSettings.Alphabet, _random);
-            if (!await IsCodeUniqueAsync(_GenerateCode))
-            {
-                return _GenerateCode;
-            }
+            
+            if (!await IsCodeUniqueAsync(_GenerateCode)) return _GenerateCode;
         }
     }
 

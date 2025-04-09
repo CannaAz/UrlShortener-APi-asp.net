@@ -11,8 +11,8 @@ using URLSHORTENER;
 namespace URLSHORTENER.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250321183106_redomigrations")]
-    partial class redomigrations
+    [Migration("20250409205641_general_migrations")]
+    partial class general_migrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -229,6 +229,23 @@ namespace URLSHORTENER.Data.Migrations
                     b.ToTable("LinkInteractions");
                 });
 
+            modelBuilder.Entity("URLSHORTENER.Models.LinkUsage", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("LinkId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTimeOffset>("UsedAt")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LinkUsages");
+                });
+
             modelBuilder.Entity("URLSHORTENER.Models.ShortenedUrl", b =>
                 {
                     b.Property<Guid>("Id")
@@ -239,7 +256,7 @@ namespace URLSHORTENER.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LongUrl")

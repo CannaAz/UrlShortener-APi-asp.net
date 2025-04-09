@@ -50,13 +50,17 @@ public class ShortenerController : Controller
                 LinkUsages = 1
             };
             _context.Add(NewLinkInter);
-            _context.SaveChanges();
         }
-        else
+        else LinkInteraction.LinkUsages += 1;
+
+        LinkUsage linkUsage = new LinkUsage
         {
-            LinkInteraction.LinkUsages += 1;
-            _context.SaveChanges();
-        }
+            Id = new Guid(),
+            LinkId = shortUrl.Id,
+            UsedAt = DateTime.Now
+        };
+        _context.LinkUsages.Add(linkUsage);
+        _context.SaveChanges();
 
         
         return Redirect(shortUrl.LongUrl);
@@ -73,10 +77,17 @@ public class ShortenerController : Controller
 
         var Interactions = await _context.LinkInteractions.FirstOrDefaultAsync(Inter => Inter.LinkId == ShortUrl.Id);
         if(Interactions == null) return Ok("This Link hasn't had any engagement");
+        
+        List<DateTimeOffset> AllDates = new List<DateTimeOffset>();
 
+        AllDates = await _context.LinkUsages.Where(s => s.LinkId == ShortUrl.Id).Select(s => s.UsedAt).ToListAsync();
 
+        UrlEngagementDto newDto = new UrlEngagementDto(
+            AllDates,
+            Interactions.LinkUsages
+        );
 
-        return Ok(Interactions.LinkUsages);
+        return Ok(newDto);
     }
 
     [HttpPost("CustomShortenUrl")]
@@ -86,19 +97,19 @@ public class ShortenerController : Controller
 
         if(!Uri.TryCreate(request.Url, UriKind.Absolute, out _)) return BadRequest("The Specified URL is invalid");
 
-        
+        string CustomUrlName = request.customName;
 
-        if(request.customName is null) request.customName = _urlService.GenerateUniqueCode().Result;
+        if(request.customName is null) CustomUrlName = _urlService.GenerateUniqueCode().Result;
 
-        if(await _context.ShortenedUrl.FirstOrDefaultAsync(url => url.Code == request.customName) == null)
+        if(await _context.ShortenedUrl.FirstOrDefaultAsync(url => url.Code == CustomUrlName) == null)
         {
             ShortenedUrl ShortenedUrl = new ShortenedUrl
             {
                 Id = Guid.NewGuid(),
                 LongUrl = request.Url,
-                Code = request.customName,
-                ShortUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/Short/{request.customName}",
-                CreatedAt = DateTime.Now
+                Code = CustomUrlName,
+                ShortUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/Short/{CustomUrlName}",
+                CreatedAt = DateTimeOffset.Now
             };
 
             await _context.ShortenedUrl.AddAsync(ShortenedUrl);

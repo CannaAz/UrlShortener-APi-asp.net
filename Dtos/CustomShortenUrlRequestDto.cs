@@ -1,7 +1,7 @@
-﻿namespace URLSHORTENER;
+﻿namespace URLSHORTENER.Dtos;
 
-public class CustomShortenUrlRequestDto
-{
-    public string Url {get; set;} 
-    public string customName {get; set;}
-}
+public record CustomShortenUrlRequestDto
+(
+    string Url,
+    string customName
+);
