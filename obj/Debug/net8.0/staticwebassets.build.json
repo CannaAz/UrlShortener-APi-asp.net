@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "6QbB7co6nJB2UuImAYvBmJ0B5fA+OjkYg43WF6+gnuU=",
+  "Source": "URLSHORTENER",
+  "BasePath": "_content/URLSHORTENER",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
