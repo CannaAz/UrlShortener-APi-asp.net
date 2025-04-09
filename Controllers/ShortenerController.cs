@@ -25,6 +25,13 @@ public class ShortenerController : Controller
         _QrSerivice = qrService;
     }
 
+
+    [HttpGet]
+    public IActionResult GetDebug()
+    {
+        return Ok(HttpContext.Request.Scheme);
+    }
+
     [HttpGet("{code}")]
     public async Task<IActionResult> GetShortenerUrl(string code)
     {
